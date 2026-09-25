@@ -33,7 +33,8 @@ public class UpdateIngredients extends AppCompatActivity {
 
         if (id != -1) {
             TextView title = findViewById(R.id.tvTitle);
-            title.setText("Edit Your Ingredient:");
+           title.setText(R.string.edit_ingredient);
+
 
             PantryItems item = databaseHelper.getPantryItem(id);
             if (item != null) {

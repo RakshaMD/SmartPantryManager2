@@ -16,8 +16,8 @@ public class RecipeRecycler extends RecyclerView.Adapter<RecipeRecycler.ViewHold
         void open(Recipe recipe);
     }
 
-    private List<Recipe> data;
-    private Listener listener;
+    private final List<Recipe> data;
+    private final Listener listener;
 
     public RecipeRecycler(List<Recipe> data, Listener listener) {
         this.data = data;
@@ -28,7 +28,7 @@ public class RecipeRecycler extends RecyclerView.Adapter<RecipeRecycler.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recipe_match, parent, false);
+                .inflate(R.layout.recipematch_layout, parent, false);
         return new ViewHolder(view);
     }
 
@@ -36,7 +36,7 @@ public class RecipeRecycler extends RecyclerView.Adapter<RecipeRecycler.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Recipe recipe = data.get(position);
         holder.name.setText(recipe.name);
-        holder.info.setText("All required ingredients available");
+        holder.info.setText(R.string.all_ingredients_available);
         holder.itemView.setOnClickListener(view -> listener.open(recipe));
     }
 
@@ -45,7 +45,7 @@ public class RecipeRecycler extends RecyclerView.Adapter<RecipeRecycler.ViewHold
         return data.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView info;
 

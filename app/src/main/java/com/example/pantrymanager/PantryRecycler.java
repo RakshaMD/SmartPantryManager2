@@ -19,7 +19,7 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         void delete(PantryItems item);
     }
 
-    private List<PantryItems> data;
+    private final List<PantryItems> data;
     private final Listener listener;
 
     public PantryRecycler(List<PantryItems> data, Listener listener) {
@@ -27,9 +27,13 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         this.listener = listener;
     }
 
-    public void setData(List<PantryItems> data) {
-        this.data = data;
-        notifyDataSetChanged();
+    //“RecyclerView warned that using notifyDataSetChanged() is inefficient because it refreshes the entire list.
+    //I replaced it with notifyItemRangeChanged(), which updates only the affected items.
+    //This improves performance and follows Android best practices.”
+    public void setData(List<PantryItems> newData) {
+        this.data.clear();
+        this.data.addAll(newData);
+        notifyItemRangeChanged(0, data.size());
     }
 
     @NonNull
@@ -50,9 +54,14 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         );
 
         if (item.expiry == null || item.expiry.isEmpty()) {
-            holder.expiry.setText("No expiry date");
+            holder.expiry.setText(R.string.no_expiry);
         } else {
-            holder.expiry.setText("Item Expiry Date: " + item.expiry);
+            holder.expiry.setText(
+                    holder.itemView.getContext().getString(
+                            R.string.expiry_with_date,
+                            item.expiry
+                    )
+            );
         }
 
         holder.edit.setOnClickListener(view -> listener.edit(item));
@@ -64,7 +73,7 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         return data.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
         TextView quantity;
         TextView expiry;

@@ -48,7 +48,7 @@ public class SuggestedRecipe extends AppCompatActivity {
         RecipeRecycler adapter = new RecipeRecycler(
                 recipes,
                 recipe -> {
-                    Intent intent = new Intent(this, RecipeDetails.class);
+                    Intent intent = new Intent(this, RecipeDetail.class);
                     intent.putExtra("id", recipe.id);
                     startActivity(intent);
                 }

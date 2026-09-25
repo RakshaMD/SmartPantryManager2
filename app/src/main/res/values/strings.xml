@@ -14,5 +14,13 @@
     <string name="suggested_recipe">Suggested Recipe</string>
     <string name="no_recipe_match">No recipes match your current pantry list - add more ingredients for suggested Recipes</string>
     <string name="back_to_pantry">Back to Pantry</string>
+    <string name="pantry_count">%1$d available ingredients in your pantry</string>
+    <string name="no_expiry">No expiry date</string>
+    <string name="expiry_with_date">Item Expiry Date: %1$s</string>
+    <string name="ingredients_title">INGREDIENTS:\n\n%1$s</string>
+    <string name="method_title">METHOD:\n\n%1$s</string>
+    <string name="all_ingredients_available">All recipe ingredients available</string>
+    <string name="edit_ingredient">Edit Your Ingredient:</string>
+
 
 </resources>

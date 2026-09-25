@@ -67,7 +67,9 @@ public class MainActivity extends AppCompatActivity implements PantryRecycler.Li
 
         int count = items.size();
         TextView countText = findViewById(R.id.tvCount);
-        countText.setText(count + " available ingredients in your pantry");
+        countText.setText(
+                getString(R.string.pantry_count, count)
+        );
     }
 
     @Override

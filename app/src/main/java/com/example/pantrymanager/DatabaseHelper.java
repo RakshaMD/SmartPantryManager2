@@ -183,8 +183,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Recipe> getSuggestedRecipes() {
+
         Map<String, Double> pantryQuantities = new HashMap<>();
 
+        // Building the pantry mapping
         for (PantryItems item : getPantry()) {
             String ingredient = normalize(item.name);
             Double current = pantryQuantities.get(ingredient);
@@ -200,13 +202,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             for (String requirement : requiredIngredients) {
                 requirement = requirement.trim();
-                String[] parts = requirement.split(" ", 3);
-                if (parts.length < 3) {
+                String[] parts = requirement.split(" ");
+                if (parts.length < 2) {
                     recipeMatches = false;
                     break;
                 }
 
+                // extracting the exact quantity required by recipe
                 double requiredQuantity;
+
                 try {
                     requiredQuantity = Double.parseDouble(parts[0]);
                 } catch (NumberFormatException e) {
@@ -214,16 +218,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 }
 
-                String ingredientName = parts[2];
+                // Extracting ingredient name properly
+                String ingredientName;
+
+                // If second word is a unit → use third word
+                if (parts[1].equals("g") ||
+                        parts[1].equals("ml") ||
+                        parts[1].equals("slice") ||
+                        parts[1].equals("slices") ||
+                        parts[1].equals("clove") ||
+                        parts[1].equals("tin") ||
+                        parts[1].equals("can")) {
+
+                    if (parts.length < 3) {
+                        recipeMatches = false;
+                        break;
+                    }
+                    ingredientName = parts[2];
+
+                } else {
+                    // Otherwise second word is the ingredient
+                    ingredientName = parts[1];
+                }
+
                 String key = normalize(ingredientName);
 
+                // Ingredient must exist
                 if (!pantryQuantities.containsKey(key)) {
                     recipeMatches = false;
                     break;
                 }
 
-                Double available = pantryQuantities.get(key);
-                if (available == null) available = 0.0;
+                // Quantity must be enough
+                Double availableBoxed = pantryQuantities.get(key);
+                double available = availableBoxed != null ? availableBoxed : 0.0;
                 if (available < requiredQuantity) {
                     recipeMatches = false;
                     break;

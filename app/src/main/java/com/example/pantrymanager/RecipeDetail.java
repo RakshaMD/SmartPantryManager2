@@ -1,25 +1,37 @@
 package com.example.pantrymanager;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 public class RecipeDetail extends AppCompatActivity {
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipedetail_layout);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        databaseHelper = new DatabaseHelper(this);
 
         long recipeId = getIntent().getLongExtra("id", -1);
 
         Recipe selectedRecipe = null;
-        for (Recipe recipe : databaseHelper.getRecipes()) {
-            if (recipe.id == recipeId) {
-                selectedRecipe = recipe;
-                break;
+
+        // Use try-with-resources to safely close the Cursor
+        try (Cursor cursor = databaseHelper.getReadableDatabase().rawQuery(
+                "SELECT id, name, ingredients, method FROM recipes WHERE id=?",
+                new String[]{String.valueOf(recipeId)}
+        )) {
+            if (cursor.moveToFirst()) {
+                selectedRecipe = new Recipe(
+                        cursor.getLong(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3)
+                );
             }
         }
 
@@ -29,8 +41,20 @@ public class RecipeDetail extends AppCompatActivity {
             TextView method = findViewById(R.id.tvMethod);
 
             title.setText(selectedRecipe.name);
-            ingredients.setText("INGREDIENTS:\n\n" + formatIngredients(selectedRecipe.ingredients));
-            method.setText("METHOD:\n\n" + selectedRecipe.method);
+
+            ingredients.setText(
+                    getString(
+                            R.string.ingredients_title,
+                            formatIngredients(selectedRecipe.ingredients)
+                    )
+            );
+
+            method.setText(
+                    getString(
+                            R.string.method_title,
+                            selectedRecipe.method
+                    )
+            );
         }
 
         findViewById(R.id.btnBack).setOnClickListener(view -> finish());
