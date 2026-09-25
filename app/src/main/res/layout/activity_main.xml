@@ -5,27 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Banner  -->
+    <include
+        layout="@layout/banner" />
+
+    <!-- Header Text -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/my_pantry_list"
-
         android:textSize="28sp"
         android:textStyle="bold" />
 
+    <!-- Count of ingredients -->
     <TextView
         android:id="@+id/tvCount"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-
         android:paddingBottom="8dp"
         android:text="@string/ingredient_count" />
 
+    <!-- recyclerView takes the remaining space on the screen -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPantry"
 
@@ -34,7 +37,7 @@
 
         android:layout_weight="1" />
 
-
+    <!-- buttons row -->
     <LinearLayout
 
         android:layout_width="match_parent"
@@ -69,5 +72,9 @@
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
     </LinearLayout>
+
+    <!-- Footer at bottom -->
+    <include
+        layout="@layout/footer" />
 
 </LinearLayout>

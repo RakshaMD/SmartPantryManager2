@@ -21,6 +21,7 @@
     <string name="method_title">METHOD:\n\n%1$s</string>
     <string name="all_ingredients_available">All recipe ingredients available</string>
     <string name="edit_ingredient">Edit Your Ingredient:</string>
+    <string name="footer">Created by: 402308778</string>
 
 
 </resources>
