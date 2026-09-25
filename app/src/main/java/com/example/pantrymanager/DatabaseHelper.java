@@ -93,14 +93,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Pantry CRUD
 
-    public long insertPantry(PantryItems item) {
+    public void insertPantry(PantryItems item) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", item.name);
         values.put("quantity", item.quantity);
         values.put("unit", item.unit);
         values.put("expiry", item.expiry);
-        return db.insert("pantry", null, values);
+        db.insert("pantry", null, values);
     }
 
     public List<PantryItems> getPantry() {
@@ -145,19 +145,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return item;
     }
 
-    public int updatePantry(PantryItems item) {
+    public void updatePantry(PantryItems item) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", item.name);
         values.put("quantity", item.quantity);
         values.put("unit", item.unit);
         values.put("expiry", item.expiry);
-        return db.update("pantry", values, "id=?", new String[]{String.valueOf(item.id)});
+        db.update("pantry", values, "id=?", new String[]{String.valueOf(item.id)});
     }
 
-    public int deletePantry(long id) {
+    public void deletePantry(long id) {
         SQLiteDatabase db = getWritableDatabase();
-        return db.delete("pantry", "id=?", new String[]{String.valueOf(id)});
+        db.delete("pantry", "id=?", new String[]{String.valueOf(id)});
     }
 
     // Recipes
@@ -187,7 +187,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         for (PantryItems item : getPantry()) {
             String ingredient = normalize(item.name);
-            double current = pantryQuantities.getOrDefault(ingredient, 0.0);
+            Double current = pantryQuantities.get(ingredient);
+            if (current == null) current = 0.0;
             pantryQuantities.put(ingredient, current + item.quantity);
         }
 
@@ -221,7 +222,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 }
 
-                double available = pantryQuantities.get(key);
+                Double available = pantryQuantities.get(key);
+                if (available == null) available = 0.0;
                 if (available < requiredQuantity) {
                     recipeMatches = false;
                     break;
@@ -241,12 +243,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (value.endsWith("ies")) {
             value = value.substring(0, value.length() - 3) + "y";
-        } else if (value.endsWith("oes")) {
-            value = value.substring(0, value.length() - 2);
-        } else if (value.endsWith("es") && value.length() > 4) {
-            value = value.substring(0, value.length() - 2);
-        } else if (value.endsWith("s") && !value.endsWith("ss")) {
-            value = value.substring(0, value.length() - 1);
+        } else {
+            String substring = value.substring(0, value.length() - 2);
+            if (value.endsWith("oes")) {
+                value = substring;
+            } else if (value.endsWith("es") && value.length() > 4) {
+                value = substring;
+            } else if (value.endsWith("s") && !value.endsWith("ss")) {
+                value = value.substring(0, value.length() - 1);
+            }
         }
 
         return value.replaceAll("\\s+", " ");
