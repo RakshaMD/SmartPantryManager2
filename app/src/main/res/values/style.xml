@@ -1,16 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
 
     <!-- Base theme -->
     <style name="Base.Theme.SmartPantryManager" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:fontFamily">sans</item>
-        <item name="android:navigationBarColor">#FFFFFF</item>
-        <item name="android:statusBarColor">#FFFFFF</item>
+
+        <item name="android:fontFamily">montserrat</item>
+        <item name="android:navigationBarColor">#FFFF00</item>
+        <item name="android:statusBarColor">#00FF00</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Override Material3 button style -->
+        <item name="materialButtonStyle">@style/MyButtonStyle</item>
+        <item name="android:buttonStyle">@style/MyButtonStyle</item>
+
+        <!-- Your colors -->
+        <item name="colorPrimary">#00FF00</item>
+        <item name="colorSecondary">#FFFF00</item>
+
     </style>
 
     <!-- App theme -->
     <style name="Theme.SmartPantryManager" parent="Base.Theme.SmartPantryManager" />
+
+    <!-- FIXED: Must inherit from Material3 button -->
+    <style name="MyButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/buttons</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">5dp</item>
+    </style>
 
 </resources>

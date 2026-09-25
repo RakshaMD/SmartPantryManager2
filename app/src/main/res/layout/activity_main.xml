@@ -25,7 +25,7 @@
         android:id="@+id/tvCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:paddingBottom="10dp"
         android:text="@string/ingredient_count" />
 
     <!-- recyclerView takes the remaining space on the screen -->
@@ -42,7 +42,8 @@
 
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="5dp">
 
         <Button
             android:id="@+id/btnAdd"
@@ -51,6 +52,7 @@
             android:layout_weight="1"
             android:text="@string/add_ingredient"
             android:layout_gravity="bottom"
+            android:backgroundTint="@null"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button
@@ -60,6 +62,7 @@
             android:layout_weight="1"
             android:text="@string/suggested_recipes"
             android:layout_gravity="bottom"
+            android:backgroundTint="@null"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
         <Button
@@ -69,6 +72,7 @@
             android:layout_weight="1"
             android:text="@string/settings"
             android:layout_gravity="bottom"
+            android:backgroundTint="@null"
             tools:ignore="ButtonStyle,VisualLintButtonSize" />
 
     </LinearLayout>

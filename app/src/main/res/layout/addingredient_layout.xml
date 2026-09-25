@@ -15,6 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <include
+            layout="@layout/banner" />
+
         <TextView
             android:id="@+id/tvTitle"
 
@@ -79,6 +82,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" />
 
+        <!-- Footer at bottom -->
+        <include
+            layout="@layout/footer" />
 
     </LinearLayout>
 

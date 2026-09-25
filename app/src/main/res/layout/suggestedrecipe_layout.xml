@@ -8,6 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        layout="@layout/banner" />
+
     <TextView
         android:text="@string/suggested_recipes"
         android:textSize="28sp"
@@ -34,5 +37,9 @@
         android:text="@string/back_to_pantry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <!-- Footer at bottom -->
+    <include
+        layout="@layout/footer" />
 
 </LinearLayout>

@@ -7,4 +7,7 @@
     android:src="@drawable/banner"
     android:scaleType="fitXY"
     android:adjustViewBounds="true"
-    android:paddingTop="40dp"/>
+    android:paddingTop="40dp"
+    android:contentDescription="@string/banner_description"
+
+    />

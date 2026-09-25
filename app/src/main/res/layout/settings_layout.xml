@@ -5,41 +5,34 @@
 
     android:orientation="vertical"
     android:padding="20dp"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="Settings"
+    <include
+        layout="@layout/banner" />
 
+    <TextView
+        android:text="@string/settings"
         android:textSize="28sp"
         android:textStyle="bold"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switchAlerts"
-
-        android:text="Expiring-soon alerts"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:text="Alerts are stored locally using SharedPreferences."
-
-        android:paddingTop="8dp"
-
+        android:text="@string/expiring_soon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/btnBack"
-
-        android:text="Back to Pantry"
-
+        android:text="@string/back_to_pantry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <!-- Footer at bottom -->
+    <include
+        layout="@layout/footer" />
 
 </LinearLayout>
