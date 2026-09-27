@@ -8,10 +8,12 @@
         android:angle="0" />
 
     <corners
-        android:radius="12dp"/> <!-- rounded -->
+        android:radius="20dp"/> <!-- rounded -->
 
     <padding
-        android:left="12dp" android:top="12dp"
-        android:right="12dp" android:bottom="12dp"/>
+        android:left="12dp"
+        android:top="12dp"
+        android:right="12dp"
+        android:bottom="12dp"/>
 
 </shape>

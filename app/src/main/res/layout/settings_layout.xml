@@ -20,8 +20,21 @@
         android:layout_height="wrap_content"/>
 
     <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/switchAlerts"
+        android:id="@+id/alertsSwitch"
         android:text="@string/expiring_soon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchSortName"
+        android:text="@string/sort_by_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchSortExpiry"
+        android:text="@string/sort_by_expiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
