@@ -8,7 +8,5 @@
 
     <size android:height="3dp" />
 
-    android:layout_marginEnd="5dp"
-
 </shape>
 

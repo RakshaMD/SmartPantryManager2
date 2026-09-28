@@ -10,7 +10,9 @@
 
     <!-- Banner  -->
     <include
-        layout="@layout/banner" />
+        layout="@layout/banner"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
 
     <!-- Header Text -->
     <TextView
@@ -80,7 +82,6 @@
 
     </LinearLayout>
 
-    <!-- Footer at bottom -->
     <include
         layout="@layout/footer" />
 

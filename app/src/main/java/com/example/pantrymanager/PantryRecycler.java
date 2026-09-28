@@ -3,7 +3,8 @@ package com.example.pantrymanager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+//import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -77,8 +78,8 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         TextView name;
         TextView quantity;
         TextView expiry;
-        Button edit;
-        Button delete;
+        ImageButton edit;
+        ImageButton delete;
 
         public ViewHolder(View view) {
             super(view);
