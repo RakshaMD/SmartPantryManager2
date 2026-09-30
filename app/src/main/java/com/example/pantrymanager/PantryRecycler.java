@@ -1,15 +1,17 @@
 package com.example.pantrymanager;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-//import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -57,12 +59,31 @@ public class PantryRecycler extends RecyclerView.Adapter<PantryRecycler.ViewHold
         if (item.expiry == null || item.expiry.isEmpty()) {
             holder.expiry.setText(R.string.no_expiry);
         } else {
-            holder.expiry.setText(
-                    holder.itemView.getContext().getString(
-                            R.string.expiry_with_date,
-                            item.expiry
-                    )
-            );
+            if (!item.expiry.trim().isEmpty()) {
+
+                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(new Date());
+
+                if (item.expiry.compareTo(today) < 0) {
+                    // Expired → red text
+                    holder.expiry.setTextColor(Color.RED);
+                } else {
+                    // Not expired → default color
+                    holder.expiry.setTextColor(Color.BLACK);
+                }
+
+                holder.expiry.setText(item.expiry);
+
+            } else {
+                holder.expiry.setText(R.string.no_expiry);
+                holder.expiry.setTextColor(Color.BLACK);
+            }
+//
+//            holder.expiry.setText(
+//                    holder.itemView.getContext().getString(
+//                            R.string.expiry_with_date,
+//                            item.expiry
+//                    )
+
         }
 
         holder.edit.setOnClickListener(view -> listener.edit(item));

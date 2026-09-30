@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Creating the pantry table
         db.execSQL(
                 "CREATE TABLE pantry (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -32,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "expiry TEXT)"
         );
 
+        // Creating recipes pantry table
         db.execSQL(
                 "CREATE TABLE recipes (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -40,15 +42,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "method TEXT NOT NULL)"
         );
 
+        // Inserting default recipes
         defaultRecipes(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Not needed for this simple student project.
+        // No upgrade logic needed for this project
     }
 
     private void defaultRecipes(SQLiteDatabase db) {
+
+        // Preloaded recipe data
         String[][] recipes = {
             {"Tomato Sauce Pasta",
                 "200 g pasta;2 tomatoes;1 garlic clove;10 ml olive oil",
@@ -97,6 +102,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Cook rice. Fry vegetables and garlic, mix with rice."}
         };
 
+        // Inserting recipes into DB
         for (String[] recipe : recipes) {
             ContentValues values = new ContentValues();
             values.put("name", recipe[0]);
@@ -106,8 +112,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Pantry CRUD
+    // Pantry CRUD functions:
 
+    // Inserting new pantry item
     public void insertPantry(PantryItems item) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -118,6 +125,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("pantry", null, values);
     }
 
+    // Getting all pantry items
     public List<PantryItems> getPantry() {
         List<PantryItems> pantry = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -126,6 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 null
         );
 
+        // Build list from DB rows
         while (cursor.moveToNext()) {
             pantry.add(new PantryItems(
                     cursor.getLong(0),
@@ -139,6 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return pantry;
     }
 
+    // Getting single pantry item by ID
     public PantryItems getPantryItem(long id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -160,6 +170,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return item;
     }
 
+    // Updating pantry item
     public void updatePantry(PantryItems item) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -170,13 +181,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update("pantry", values, "id=?", new String[]{String.valueOf(item.id)});
     }
 
+    // Deleting pantry item
     public void deletePantry(long id) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete("pantry", "id=?", new String[]{String.valueOf(id)});
     }
 
-    // Recipes
-
+    // Getting all recipes
     public List<Recipe> getRecipes() {
         List<Recipe> recipes = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -197,11 +208,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return recipes;
     }
 
+    // Applying Strict recipe matching logic
     public List<Recipe> getSuggestedRecipes() {
 
         Map<String, Double> pantryQuantities = new HashMap<>();
 
         // Building the pantry mapping
+        // Mapping pantry ingredient → total quantity
         for (PantryItems item : getPantry()) {
             String ingredient = normalize(item.name);
             Double current = pantryQuantities.get(ingredient);
@@ -211,6 +224,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         List<Recipe> matches = new ArrayList<>();
 
+        // Checking each recipe
         for (Recipe recipe : getRecipes()) {
             boolean recipeMatches = true;
             String[] requiredIngredients = recipe.ingredients.split(";");
@@ -218,12 +232,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             for (String requirement : requiredIngredients) {
                 requirement = requirement.trim();
                 String[] parts = requirement.split(" ");
+                // Validating the format
                 if (parts.length < 2) {
                     recipeMatches = false;
                     break;
                 }
 
-                // extracting the exact quantity required by recipe
+                // Parsing the exact quantity required by recipe
                 double requiredQuantity;
 
                 try {
@@ -233,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     break;
                 }
 
-                // Extracting ingredient name properly
+                // Extracting ingredient name
                 String ingredientName;
 
                 // If second word is a unit → use third word
@@ -277,10 +292,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 matches.add(recipe);
             }
         }
-
         return matches;
     }
 
+    // Normalizing ingredient names
     public static String normalize(String value) {
         value = value.toLowerCase(Locale.US).trim();
 
